@@ -10,7 +10,7 @@ import { getAccessToken, login, getArtist, getArtistAlbums } from '../spotifyApi
 
 const { Row, Col } = Grid;
 
-const ArtistAlbums = () => {
+const ArtistAlbumSongs = () => {
   const { artistId } = useParams();
   const [artist, setArtist] = useState(null);
   const [artistAlbums, setArtistAlbums] = useState([]);
@@ -77,30 +77,24 @@ const ArtistAlbums = () => {
                     avatarSize="lg"
                   />
                 )}
+
+                {/*{!loadingAlbum && album && (*/}
+                {/*  <ArtistAlbumPanel*/}
+                {/*    album={album}*/}
+                {/*  />*/}
+                {/*)}*/}
               </div>
             </Col>
 
             <Col widths={['sm-12', 'md-9']}>
-              <h2>Albums</h2>
+              <h2>Album Songs</h2>
 
               {loadingAlbums ? (
                 <PageSpinner />
               ) : (
                 <Grid>
                   <Row>
-                    {artistAlbums.map((album) => (
-                      <Col
-                        key={album.id}
-                        widths={['md-12', 'lg-6']}
-                      >
-                        <Link
-                          to={`/artists/${artistId}/albums/${album.id}`}
-                          style={{ textDecoration: 'none' }}
-                        >
-                          <ArtistAlbumPanel album={album} />
-                        </Link>
-                      </Col>
-                    ))}
+                    ...
                   </Row>
                 </Grid>
               )}
@@ -112,4 +106,4 @@ const ArtistAlbums = () => {
   );
 };
 
-export default ArtistAlbums;
+export default ArtistAlbumSongs;

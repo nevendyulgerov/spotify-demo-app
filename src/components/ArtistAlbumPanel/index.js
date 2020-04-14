@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card, Image } from 'react-fidelity-ui';
+import { Card, Icon, Image } from 'react-fidelity-ui';
 import './index.css';
 
 const ArtistAlbum = ({ album }) => {
@@ -16,6 +16,7 @@ const ArtistAlbum = ({ album }) => {
             src={firstImage.url}
             rounded={false}
             expanded
+            spinner={<Icon id="ion-load-c" spinning />}
           />
         </div>
 

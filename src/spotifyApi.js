@@ -1,8 +1,8 @@
 import SpotifyWebApi from 'spotify-web-api-js';
 
-export const clientId = '63627112c863476e8ac09e84b773c926';
+const clientId = '63627112c863476e8ac09e84b773c926';
 
-export const clientSecret = '253f463d7fc548f19bc358045e50a5c1';
+const clientSecret = '253f463d7fc548f19bc358045e50a5c1';
 
 export const spotifyApi = new SpotifyWebApi();
 

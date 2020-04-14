@@ -3,7 +3,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { App as UiApp } from 'react-fidelity-ui';
 import ArtistSearch from './views/ArtistSearch';
 import ArtistAlbums from './views/ArtistAlbums';
-import ArtistMusic from './views/ArtistMusic';
+import ArtistAlbumSongs from './views/ArtistAlbumSongs';
 import iconsSprite from './assets/ionicons-sprite.svg';
 import 'react-fidelity-ui/dist/index.css';
 import './App.css';
@@ -19,12 +19,12 @@ const App = () => (
           <ArtistSearch />
         </Route>
 
-        <Route path="/artists/:artistId/albums">
-          <ArtistAlbums />
+        <Route path="/artists/:artistId/albums/:albumId">
+          <ArtistAlbumSongs />
         </Route>
 
-        <Route path="/artists/:artistId/albums/:albumId">
-          <ArtistMusic />
+        <Route path="/artists/:artistId/albums">
+          <ArtistAlbums />
         </Route>
       </Switch>
     </BrowserRouter>
