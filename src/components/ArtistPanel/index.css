@@ -1,0 +1,30 @@
+.artist {
+  text-align: center;
+}
+
+.artist > a {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+  height: 100%;
+}
+
+.artist > a:hover {
+ text-decoration: none;
+}
+
+.artist__image {
+  margin-bottom: var(--spacer);
+}
+
+.artist__title {
+  font-size: var(--font-size--lg);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.artist__meta {
+  font-size: var(--font-size--sm);
+}
