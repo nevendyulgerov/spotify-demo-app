@@ -1,0 +1,47 @@
+.album {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+  height: calc(100% - var(--grid-gutter));
+  flex: 0 1 100%;
+}
+
+.album__wrap {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  height: 100%;
+}
+
+.album__image {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--card-border-radius) var(--card-border-radius) 0 0;
+}
+
+.album__body {
+  padding: var(--card-padding);
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  word-break: break-word;
+}
+
+.album__title {
+  font-weight: var(--font-weight--bolder);
+  margin-bottom: calc(var(--spacer) / 2);
+  word-break: break-word;
+}
+
+.album__meta {
+  font-size: var(--font-size--sm);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  white-space: nowrap;
+  margin-top: auto;
+}
+
+.album__meta__item:first-child {
+  flex: 1 1 auto;
+}
