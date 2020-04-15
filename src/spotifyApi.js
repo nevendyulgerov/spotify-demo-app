@@ -87,3 +87,13 @@ export const getAlbum = (albumId, options) => {
 export const getAlbumTracks = (albumId, options) => {
   return spotifyApi.getAlbumTracks(albumId, options);
 };
+
+/**
+ * @description Search artists
+ * @param query
+ * @param options
+ * @returns {Promise<SpotifyApi.ArtistSearchResponse>}
+ */
+export const searchArtists = (query, options) => {
+  return spotifyApi.searchArtists(query, options);
+};
