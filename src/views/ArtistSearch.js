@@ -45,7 +45,8 @@ const ArtistSearch = () => {
       });
   };
 
-  const logIntoSpotify = () => {
+  // on mount
+  useEffect(() => {
     setLoggingIn(true);
 
     login()
@@ -54,11 +55,6 @@ const ArtistSearch = () => {
         focusSearchInput();
       })
       .catch(() => setLoggingIn(false));
-  };
-
-  // on mount
-  useEffect(() => {
-    logIntoSpotify();
   }, []);
 
   return (

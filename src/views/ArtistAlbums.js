@@ -63,14 +63,10 @@ const ArtistAlbums = () => {
 
     if (!getAccessToken()) {
       login().then(() => {
-        fetchArtist().then(() => {
-          fetchArtistAlbums();
-        });
+        fetchArtist().then(fetchArtistAlbums);
       })
     } else {
-      fetchArtist().then(() => {
-        fetchArtistAlbums();
-      });
+      fetchArtist().then(fetchArtistAlbums);
     }
   }, [artistId]);
 

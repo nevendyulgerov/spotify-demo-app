@@ -19,7 +19,6 @@ const AlbumTracks = () => {
 
     getAlbum(albumId)
       .then((res) => {
-        console.log(res);
         setAlbum(res);
         setLoadingAlbum(false);
       })
@@ -33,9 +32,7 @@ const AlbumTracks = () => {
     setLoadingAlbum(true);
 
     if (!getAccessToken()) {
-      login().then(() => {
-        fetchAlbum();
-      })
+      login().then(fetchAlbum)
     } else {
       fetchAlbum();
     }
@@ -72,23 +69,17 @@ const AlbumTracks = () => {
                 <PageSpinner style={{ minHeight: 'calc(100vh - 15rem)' }} />
               ) : album && (
                 <>
-                  {album.tracks.items.map((track) => {
-                    const { external_urls } = track;
-
-                    return (
-                      <a
-                        href={external_urls.spotify}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{ textDecoration: 'none' }}
-                      >
-                        <Track
-                          key={track.id}
-                          track={track}
-                        />
-                      </a>
-                    );
-                  })}
+                  {album.tracks.items.map((track) => (
+                    <a
+                      key={track.id}
+                      href={track.external_urls.spotify}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ textDecoration: 'none' }}
+                    >
+                      <Track track={track} />
+                    </a>
+                  ))}
                 </>
               )}
             </Col>
