@@ -67,3 +67,23 @@ export const getArtist = (artistId, options) => {
 export const getArtistAlbums = (artistId, options) => {
   return spotifyApi.getArtistAlbums(artistId, options);
 };
+
+/**
+ * @description Get album
+ * @param albumId
+ * @param options
+ * @returns {Promise<SpotifyApi.SingleAlbumResponse>}
+ */
+export const getAlbum = (albumId, options) => {
+  return spotifyApi.getAlbum(albumId, options);
+};
+
+/**
+ * @description Get album tracks
+ * @param albumId
+ * @param options
+ * @returns {Promise<SpotifyApi.AlbumTracksResponse>}
+ */
+export const getAlbumTracks = (albumId, options) => {
+  return spotifyApi.getAlbumTracks(albumId, options);
+};

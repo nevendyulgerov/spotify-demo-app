@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
-import { Link } from 'react-router-dom';
 import { Grid, Layout } from 'react-fidelity-ui';
 import PageLayout from '../components/PageLayout';
 import PageSpinner from '../components/PageSpinner';
@@ -13,9 +12,24 @@ const { Row, Col } = Grid;
 const ArtistAlbumSongs = () => {
   const { artistId } = useParams();
   const [artist, setArtist] = useState(null);
-  const [artistAlbums, setArtistAlbums] = useState([]);
+  const [artistAlbum, setArtistAlbum] = useState([]);
   const [loadingArtist, setLoadingArtist] = useState(false);
-  const [loadingAlbums, setLoadingAlbums] = useState(false);
+  const [loadingAlbum, setLoadingAlbum] = useState(false);
+
+  const getUniqueAlbums = (albums) => {
+    const albumsNameReleaseDate = [];
+
+    return albums.filter(({ release_date, name }) => {
+      const albumNameReleaseDate = `${name}:${release_date}`;
+      const isUnique = !albumsNameReleaseDate.includes(albumNameReleaseDate);
+
+      if (isUnique) {
+        albumsNameReleaseDate.push(albumNameReleaseDate);
+      }
+
+      return isUnique;
+    })
+  };
 
   const fetchArtist = () => {
     return getArtist(artistId)
@@ -33,7 +47,8 @@ const ArtistAlbumSongs = () => {
 
     return getArtistAlbums(artistId)
       .then((res) => {
-        setArtistAlbums(res.items);
+        const uniqueAlbums = getUniqueAlbums(res.items);
+        setArtistAlbums(uniqueAlbums);
         setLoadingAlbums(false);
       })
       .catch(() => {
@@ -45,17 +60,18 @@ const ArtistAlbumSongs = () => {
   useEffect(() => {
     setLoadingArtist(true);
 
-    // check if already logged in
     if (!getAccessToken()) {
-      // if not, login and then fetch the artist
-      login().then(() => fetchArtist().then(() => fetchArtistAlbums()))
+      login().then(() => {
+        fetchArtist().then(() => {
+          fetchArtistAlbums();
+        });
+      })
     } else {
-      // else, just fetch the artist
-      fetchArtist().then(() => fetchArtistAlbums());
+      fetchArtist().then(() => {
+        fetchArtistAlbums();
+      });
     }
   }, [artistId]);
-
-  // TODO: Adjust spinner
 
   return (
     <PageLayout>
@@ -78,23 +94,28 @@ const ArtistAlbumSongs = () => {
                   />
                 )}
 
+                <h3>Album</h3>
+
                 {/*{!loadingAlbum && album && (*/}
                 {/*  <ArtistAlbumPanel*/}
                 {/*    album={album}*/}
+                {/*    avatarSize="lg"*/}
                 {/*  />*/}
                 {/*)}*/}
               </div>
             </Col>
 
             <Col widths={['sm-12', 'md-9']}>
-              <h2>Album Songs</h2>
+              <h2>Songs</h2>
 
               {loadingAlbums ? (
-                <PageSpinner />
+                <PageSpinner style={{ minHeight: 'calc(100vh - 15rem)' }} />
               ) : (
                 <Grid>
                   <Row>
-                    ...
+                    <Col>
+                      Album songs
+                    </Col>
                   </Row>
                 </Grid>
               )}

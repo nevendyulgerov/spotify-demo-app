@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Icon } from 'react-fidelity-ui';
 import classNames from 'classnames';
 
-const PageSpinner = () => {
+const PageSpinner = (props) => {
   const className = classNames({
     'd-flex': true,
     'color--secondary': true,
@@ -12,8 +13,8 @@ const PageSpinner = () => {
 
   return (
     <div
+      {...props}
       className={className}
-      style={{ minHeight: 'calc(100vh - 5rem)' }}
     >
       <Icon
         id="ion-load-c"
@@ -22,6 +23,10 @@ const PageSpinner = () => {
       />
     </div>
   );
+};
+
+PageSpinner.propTypes = {
+  [PropTypes.string]: PropTypes.any
 };
 
 export default PageSpinner;

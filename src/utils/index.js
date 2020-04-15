@@ -138,3 +138,12 @@ export const debounce = (id, delay) => {
  * @param len
  */
 export const uid = (len = 7) => Math.random().toString(35).substr(2, len);
+
+/**
+ * @description Capitalize
+ * @param text
+ * @returns {string}
+ */
+export const capitalize = text => {
+  return `${text.charAt(0).toUpperCase()}${text.slice(1).toLowerCase()}`;
+};

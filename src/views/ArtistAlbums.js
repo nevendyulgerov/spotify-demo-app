@@ -17,6 +17,21 @@ const ArtistAlbums = () => {
   const [loadingArtist, setLoadingArtist] = useState(false);
   const [loadingAlbums, setLoadingAlbums] = useState(false);
 
+  const getUniqueAlbums = (albums) => {
+    const albumsNameReleaseDate = [];
+
+    return albums.filter(({ release_date, name }) => {
+      const albumNameReleaseDate = `${name}:${release_date}`;
+      const isUnique = !albumsNameReleaseDate.includes(albumNameReleaseDate);
+
+      if (isUnique) {
+        albumsNameReleaseDate.push(albumNameReleaseDate);
+      }
+
+      return isUnique;
+    })
+  };
+
   const fetchArtist = () => {
     return getArtist(artistId)
       .then((nextArtist) => {
@@ -33,7 +48,8 @@ const ArtistAlbums = () => {
 
     return getArtistAlbums(artistId)
       .then((res) => {
-        setArtistAlbums(res.items);
+        const uniqueAlbums = getUniqueAlbums(res.items);
+        setArtistAlbums(uniqueAlbums);
         setLoadingAlbums(false);
       })
       .catch(() => {
@@ -45,17 +61,18 @@ const ArtistAlbums = () => {
   useEffect(() => {
     setLoadingArtist(true);
 
-    // check if already logged in
     if (!getAccessToken()) {
-      // if not, login and then fetch the artist
-      login().then(() => fetchArtist().then(() => fetchArtistAlbums()))
+      login().then(() => {
+        fetchArtist().then(() => {
+          fetchArtistAlbums();
+        });
+      })
     } else {
-      // else, just fetch the artist
-      fetchArtist().then(() => fetchArtistAlbums());
+      fetchArtist().then(() => {
+        fetchArtistAlbums();
+      });
     }
   }, [artistId]);
-
-  // TODO: Adjust spinner
 
   return (
     <PageLayout>
@@ -84,7 +101,7 @@ const ArtistAlbums = () => {
               <h2>Albums</h2>
 
               {loadingAlbums ? (
-                <PageSpinner />
+                <PageSpinner style={{ minHeight: 'calc(100vh - 15rem)' }} />
               ) : (
                 <Grid>
                   <Row>

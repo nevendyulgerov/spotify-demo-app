@@ -1,18 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import { InputGroup, Search, Icon, Button } from 'react-fidelity-ui';
+import React, { useState, useEffect, useRef } from 'react';
+import { InputGroup, Search, Icon, Button, Notification } from 'react-fidelity-ui';
+import { Link } from 'react-router-dom';
 import PageLayout from '../components/PageLayout';
 import PageSpinner from '../components/PageSpinner';
 import ArtistPanel from '../components/ArtistPanel';
 import { login, getArtist } from '../spotifyApi';
+import { capitalize } from '../utils';
 
 const ArtistSearch = () => {
   const [search, setSearch] = useState('');
   const [searching, setSearching] = useState(false);
   const [loggingIn, setLoggingIn] = useState(false);
+  const [searchError, setSearchError] = useState(null);
   const [artist, setArtist] = useState(null);
+  const refComponent = useRef(null);
 
-  const onChange = ({ target }) => {
+  const onChangeSearch = ({ target }) => {
     setSearch(target.value);
+  };
+
+  const onKeyDownSearch = ({ key }) => {
+    if (key === 'Enter') {
+      onSearchArtist();
+    }
+  };
+
+  const focusSearchInput = () => {
+    refComponent.current.querySelector('input').focus();
   };
 
   const onSearchArtist = () => {
@@ -20,29 +34,39 @@ const ArtistSearch = () => {
 
     getArtist(search)
       .then((nextArtist) => {
-        setSearching(false);
         setArtist(nextArtist);
+        setSearchError(null);
+        setSearching(false);
       })
       .catch((err) => {
+        const errorData = JSON.parse(err.responseText);
+        setSearchError(errorData.error.message);
         setSearching(false);
       });
   };
 
+  const logIntoSpotify = () => {
+    setLoggingIn(true);
+
+    login()
+      .then(() => {
+        setLoggingIn(false);
+        focusSearchInput();
+      })
+      .catch(() => setLoggingIn(false));
+  };
+
   // on mount
   useEffect(() => {
-    // log into spotify using client id and secret
-    setLoggingIn(true);
-    login()
-      .then(() => setLoggingIn(false))
-      .catch(() => setLoggingIn(false));
+    logIntoSpotify();
   }, []);
 
   return (
     <PageLayout>
       {loggingIn ? (
-        <PageSpinner />
+        <PageSpinner style={{ minHeight: 'calc(100vh - 5rem)' }} />
       ) : (
-        <div>
+        <div ref={refComponent}>
           <InputGroup
             className="mt-2"
             isRow
@@ -51,7 +75,8 @@ const ArtistSearch = () => {
               value={search}
               placeholder="Search for artists..."
               disabled={loggingIn}
-              onChange={onChange}
+              onChange={onChangeSearch}
+              onKeyDown={onKeyDownSearch}
               icon={<Icon id="ion-android-person" />}
             />
 
@@ -63,11 +88,20 @@ const ArtistSearch = () => {
             </Button>
           </InputGroup>
 
-          {artist && (
-            <ArtistPanel
-              artist={artist}
-              avatarSize="xl"
-            />
+          {searchError ? (
+            <Notification type="danger">
+              {capitalize(searchError)}
+            </Notification>
+          ) : artist && (
+            <Link
+              to={`/artists/${artist.id}/albums`}
+              style={{ textDecoration: 'none' }}
+            >
+              <ArtistPanel
+                artist={artist}
+                avatarSize="xl"
+              />
+            </Link>
           )}
         </div>
       )}
