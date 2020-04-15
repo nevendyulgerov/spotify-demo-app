@@ -1,18 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { InputGroup, Search, Icon, Button, Notification } from 'react-fidelity-ui';
+import { Grid, InputGroup, Search, Icon, Button, Notification } from 'react-fidelity-ui';
 import { Link } from 'react-router-dom';
 import PageLayout from '../components/PageLayout';
 import PageSpinner from '../components/PageSpinner';
 import Artist from '../components/Artist';
-import { login, getArtist } from '../spotifyApi';
+import { login, searchArtists } from '../spotifyApi';
 import { capitalize } from '../utils';
+
+const { Row, Col } = Grid;
 
 const ArtistSearch = () => {
   const [search, setSearch] = useState('');
   const [searching, setSearching] = useState(false);
   const [loggingIn, setLoggingIn] = useState(false);
   const [searchError, setSearchError] = useState(null);
-  const [artist, setArtist] = useState(null);
+  const [artists, setArtists] = useState([]);
   const refComponent = useRef(null);
 
   const onChangeSearch = ({ target }) => {
@@ -32,9 +34,10 @@ const ArtistSearch = () => {
   const onSearchArtist = () => {
     setSearching(true);
 
-    getArtist(search)
-      .then((nextArtist) => {
-        setArtist(nextArtist);
+    searchArtists(search)
+      .then((res) => {
+        const { items } = res.artists;
+        setArtists(items);
         setSearchError(null);
         setSearching(false);
       })
@@ -88,16 +91,27 @@ const ArtistSearch = () => {
             <Notification type="danger">
               {capitalize(searchError)}
             </Notification>
-          ) : artist && (
-            <Link
-              to={`/artists/${artist.id}/albums`}
-              style={{ textDecoration: 'none' }}
-            >
-              <Artist
-                artist={artist}
-                avatarSize="xl"
-              />
-            </Link>
+          ) : artists.length > 0 && (
+            <Grid>
+              <Row>
+                {artists.map((artist) => (
+                  <Col
+                    key={artist.id}
+                    widths={['md-12', 'lg-6']}
+                  >
+                    <Link
+                      to={`/artists/${artist.id}/albums`}
+                      style={{ textDecoration: 'none' }}
+                    >
+                      <Artist
+                        artist={artist}
+                        avatarSize="xl"
+                      />
+                    </Link>
+                  </Col>
+                ))}
+              </Row>
+            </Grid>
           )}
         </div>
       )}
