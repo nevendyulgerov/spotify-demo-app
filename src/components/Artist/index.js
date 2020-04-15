@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Card, Image, Icon, Badge } from 'react-fidelity-ui';
-import { isNonEmptyStr } from '../../utils';
+import { isObj } from '../../utils';
 import './index.css';
 
 const Artist = ({ artist, avatarSize }) => {
@@ -11,7 +11,7 @@ const Artist = ({ artist, avatarSize }) => {
   return (
     <Card className="artist">
       <div className="artist__wrap">
-        {isNonEmptyStr(firstImage) && (
+        {isObj(firstImage) && (
           <div className="artist__image">
             <Image
               src={firstImage.url}

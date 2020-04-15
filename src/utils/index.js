@@ -5,6 +5,13 @@
 export const isStr = (val) => typeof val === 'string';
 
 /**
+ * @description Is object
+ * @param val
+ * @returns {boolean|boolean}
+ */
+export const isObj = (val) => typeof val === 'object' && !Array.isArray(val);
+
+/**
  * @description Is non empty string
  * @param val
  */
