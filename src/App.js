@@ -19,12 +19,12 @@ const App = () => (
           <ArtistSearch />
         </Route>
 
-        <Route path="/albums/:albumId/tracks">
-          <AlbumTracks />
-        </Route>
-
         <Route path="/artists/:artistId/albums">
           <ArtistAlbums />
+        </Route>
+
+        <Route path="/albums/:albumId/tracks">
+          <AlbumTracks />
         </Route>
       </Switch>
     </BrowserRouter>
