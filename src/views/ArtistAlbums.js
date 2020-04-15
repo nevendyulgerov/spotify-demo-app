@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import { Grid, Layout } from 'react-fidelity-ui';
 import PageLayout from '../components/PageLayout';
 import PageSpinner from '../components/PageSpinner';
-import ArtistPanel from '../components/ArtistPanel';
-import ArtistAlbumPanel from '../components/ArtistAlbumPanel';
+import Artist from '../components/Artist';
+import Album from '../components/Album';
 import { getAccessToken, login, getArtist, getArtistAlbums } from '../spotifyApi';
 
 const { Row, Col } = Grid;
@@ -89,7 +89,7 @@ const ArtistAlbums = () => {
                 <h2>Artist</h2>
 
                 {!loadingArtist && artist && (
-                  <ArtistPanel
+                  <Artist
                     artist={artist}
                     avatarSize="lg"
                   />
@@ -111,10 +111,10 @@ const ArtistAlbums = () => {
                         widths={['md-12', 'lg-6']}
                       >
                         <Link
-                          to={`/artists/${artistId}/albums/${album.id}`}
+                          to={`/albums/${album.id}/tracks`}
                           style={{ textDecoration: 'none' }}
                         >
-                          <ArtistAlbumPanel album={album} />
+                          <Album album={album} />
                         </Link>
                       </Col>
                     ))}

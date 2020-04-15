@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card, Icon, Image } from 'react-fidelity-ui';
+import { Link } from 'react-router-dom';
+import { Card, Icon, Image, Badge } from 'react-fidelity-ui';
 import './index.css';
 
-const ArtistAlbum = ({ album }) => {
-  const { name, images, release_date, total_tracks } = album;
+const Album = ({ album, showArtist }) => {
+  const { name, images, release_date, total_tracks, artists } = album;
   const [firstImage] = images;
+  const [firstArtist] = artists;
 
   return (
     <Card padded={false}>
@@ -24,6 +26,16 @@ const ArtistAlbum = ({ album }) => {
           <h3 className="h4 album__title">
             {name}
           </h3>
+
+          {showArtist && (
+            <div className="album__artist">
+              <Link to={`/artists/${firstArtist.id}/albums`}>
+                <Badge size="md">
+                  Artist: {firstArtist.name}
+                </Badge>
+              </Link>
+            </div>
+          )}
 
           <div className="album__meta">
             <div className="album__meta__item">
@@ -44,7 +56,7 @@ const ArtistAlbum = ({ album }) => {
   )
 };
 
-ArtistAlbum.propTypes = {
+Album.propTypes = {
   album: PropTypes.shape({
     name: PropTypes.string,
     images: PropTypes.arrayOf(
@@ -53,8 +65,18 @@ ArtistAlbum.propTypes = {
       })
     ),
     release_date: PropTypes.string,
-    total_tracks: PropTypes.number
-  }).isRequired
+    total_tracks: PropTypes.number,
+    artists: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string
+      })
+    )
+  }).isRequired,
+  showArtist: PropTypes.bool
 };
 
-export default ArtistAlbum;
+Album.defaultProps = {
+  showArtist: false
+};
+
+export default Album;

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Card, Image, Icon, Badge } from 'react-fidelity-ui';
 import './index.css';
 
-const ArtistPanel = ({ artist, avatarSize }) => {
+const Artist = ({ artist, avatarSize }) => {
   const { name, followers, genres, images } = artist;
   const [firstImage] = images;
 
@@ -48,7 +48,7 @@ const ArtistPanel = ({ artist, avatarSize }) => {
   )
 };
 
-ArtistPanel.propTypes = {
+Artist.propTypes = {
   artist: PropTypes.shape({
     name: PropTypes.string,
     followers: PropTypes.shape({
@@ -64,8 +64,8 @@ ArtistPanel.propTypes = {
   avatarSize: PropTypes.oneOf(['sm', 'md', 'lg', 'xl'])
 };
 
-ArtistPanel.defaultProps = {
+Artist.defaultProps = {
   avatarSize: 'md'
 };
 
-export default ArtistPanel;
+export default Artist;

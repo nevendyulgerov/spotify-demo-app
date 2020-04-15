@@ -3,7 +3,7 @@ import { InputGroup, Search, Icon, Button, Notification } from 'react-fidelity-u
 import { Link } from 'react-router-dom';
 import PageLayout from '../components/PageLayout';
 import PageSpinner from '../components/PageSpinner';
-import ArtistPanel from '../components/ArtistPanel';
+import Artist from '../components/Artist';
 import { login, getArtist } from '../spotifyApi';
 import { capitalize } from '../utils';
 
@@ -97,7 +97,7 @@ const ArtistSearch = () => {
               to={`/artists/${artist.id}/albums`}
               style={{ textDecoration: 'none' }}
             >
-              <ArtistPanel
+              <Artist
                 artist={artist}
                 avatarSize="xl"
               />
